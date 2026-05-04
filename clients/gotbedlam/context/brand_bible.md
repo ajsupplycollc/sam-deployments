@@ -48,10 +48,12 @@ Every SKU name is a content character. A weekly "meet the lineup" series — one
 
 ## Black Label (Subscription)
 
-- Subscription product exists on Shopify but appears dormant
-- High-LTV DTC move — needs activation, not invention
-- 3-email Klaviyo sequence plan (teaser → launch → last call) proposed on discovery call
-- Landing page rebuild on the roadmap
+- Subscription product ran for 18 months, peaked then dropped to 3 subscribers
+- **Killed by cost, not demand.** Third-party subscription app (ReCharge/Bold-type) charged monthly fees that ate all margin at low subscriber count. Dead even at 3 subscribers.
+- Josh created a monthly exclusive scent for subscribers. Tried expanding to washes, oils, kits — those never took off.
+- Josh confirmed he'd reactivate "once the wheels get rolling"
+- **SAM solution:** Use Shopify's native subscription APIs (no third-party app, zero extra cost). Claude Code manages subscription logic through Shopify Admin API directly. The cost problem is eliminated.
+- Reactivation plan: NOT day one. Within first 30 days, after core system is running. 3-email sequence (teaser → launch → last call), landing page rebuild, teaser posts on social.
 
 ## Current State (from audit)
 
