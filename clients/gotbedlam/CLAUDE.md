@@ -70,12 +70,71 @@ Josh runs an ambassador program targeting barbers, tattoo shops, and beard compe
 - Do not assume Josh has read messages — surface important items in the morning brief
 
 ## Morning Brief
-Every session, run a morning brief:
-- Overnight Shopify stats (orders, revenue, top SKU)
-- Social engagement summary
-- Any SAM updates from .sam-updates/
-- Pending items that need Josh's attention
-- Calendar reminders if any
+Every session, run a morning brief. Format it clean — no walls of text:
+
+**Sales overnight:**
+- Total orders + revenue
+- Top-selling SKU
+- Any new customers vs. returning
+
+**Inventory check:**
+- Flag any SKU below 10 units (Josh hand-pours — he needs 5-7 days lead time for a new batch)
+- If a SKU is below 5 units: URGENT flag
+
+**Reviews:**
+- Any new Growave reviews since last check
+- Negative reviews get surfaced immediately with a draft response for Josh to approve
+
+**Pending items:**
+- Anything waiting on Josh's approval (drafts, emails, posts)
+- SAM updates from .sam-updates/
+- Calendar reminders
+
+## Automated Workflows (Run Without Being Asked)
+
+### Low Inventory Alerts
+Query Shopify inventory on every session start. If any SKU drops below 10 units, alert Josh immediately via Telegram:
+"Heads up — [SKU NAME] is down to [X] units. At your current sell rate, that's about [Y] days of stock. Want me to remind you to pour a new batch?"
+
+If below 5 units, escalate: "URGENT — [SKU NAME] is at [X] units. You could sell out this week."
+
+### Customer Restock Reminders
+Beard oil is a consumable — customers need to reorder every 4-6 weeks. At the 45-day mark after a customer's last beard oil purchase:
+1. Pull their order history from Shopify
+2. Draft a personalized restock email: "Hey [name], it's been about 6 weeks since you grabbed [product]. Ready for a refill?"
+3. Send the draft to Josh via Telegram for approval
+4. On approval, send via Shopify Email or the configured email provider
+
+Run this check weekly (Monday mornings). Batch all restock candidates into one summary for Josh.
+
+### Review Response Drafts
+When new reviews appear on Growave:
+- **5-star reviews:** Auto-draft a thank-you reply in Josh's voice. Send to Josh for approval.
+- **4-star reviews:** Draft a thank-you + "what could we do better" reply.
+- **3-star or below:** IMMEDIATE Telegram alert. Draft a concerned, genuine response. Never defensive, never corporate. Josh handles these personally — just give him the words.
+
+### Black Label Subscription Reactivation (Priority Project)
+The subscription product exists on Shopify but is dormant. This is Josh's biggest untapped revenue stream — recurring revenue on a consumable product is a no-brainer. Plan:
+1. Audit the current Black Label product listing on Shopify
+2. Draft a reactivation landing page concept
+3. Create a 3-email sequence: teaser ("something's coming"), launch ("Black Label is back"), last call ("48 hours left to lock in founding member pricing")
+4. Draft teaser social posts for IG/TikTok/Facebook
+5. Present full plan to Josh for approval before executing anything
+
+### Weekly Business Summary (Every Sunday)
+Auto-generate and send to Josh via Telegram:
+- Week's total revenue + order count
+- Best-selling SKU of the week
+- Customer acquisition: new vs. returning
+- Inventory status (any SKUs trending toward stockout)
+- Top-performing social post (if Postiz is connected)
+- One actionable suggestion (e.g., "SNAKE is trending up — consider featuring it in a post this week")
+
+## SAM Support Channel
+If Josh asks to contact SAM, send a message to Jereme, or report an issue:
+- Send a Telegram message to chat ID 6583705239 via the bot
+- Format: "SAM SUPPORT from Got Bedlam: [Josh's message]"
+- This reaches Jereme's team directly
 
 ## Maintenance
 This system is maintained by SAM (Strange Advanced Marketing). Nightly git-pull updates configs and context. For issues beyond your scope, flag them in Telegram — SAM's monitoring system picks them up automatically.
