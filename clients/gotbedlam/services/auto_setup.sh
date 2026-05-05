@@ -10,7 +10,10 @@ echo "═══ SAM AUTO-SETUP STARTING ═══"
 echo ""
 echo ">>> STEP 6: Registering MCPs..."
 claude mcp add desktop-commander -- npx -y @wonderwhy-er/desktop-commander --scope user && echo "  ✓ Desktop Commander" || echo "  ⚠ Desktop Commander failed — will retry manually"
-claude plugin install telegram && echo "  ✓ Telegram plugin" || echo "  ⚠ Telegram plugin failed — will retry manually"
+# NOTE: Do NOT install claude telegram plugin here. It creates a competing
+# getUpdates consumer that silently eats all incoming messages. Client's
+# Claude Code should use raw curl to poll the Bot API instead.
+echo "  ℹ Telegram: use raw curl polling (no plugin — avoids competing consumers)"
 claude mcp add filesystem -- npx -y @modelcontextprotocol/server-filesystem "$HOME/.sam" --scope user && echo "  ✓ Filesystem" || echo "  ⚠ Filesystem failed — will retry manually"
 echo ">>> MCPs done."
 
