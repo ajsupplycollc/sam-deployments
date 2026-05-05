@@ -1,13 +1,16 @@
 #!/bin/bash
-echo "Enabling Tailscale SSH..."
-TS="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
-if [ -x "$TS" ]; then
-    sudo "$TS" up --ssh --accept-routes --reset
-    if [ $? -eq 0 ]; then
-        echo "Done. Tailscale SSH is enabled."
-    else
-        echo "Failed. Ask Jereme."
-    fi
+echo "Enabling macOS Remote Login (SSH)..."
+sudo systemsetup -setremotelogin on
+if [ $? -eq 0 ]; then
+    echo "Done. SSH is enabled."
+    echo "Username: $(whoami)"
+    echo "Connect with: ssh $(whoami)@$(ipconfig getifaddr en0 2>/dev/null || echo '<tailscale-ip>')"
 else
-    echo "Tailscale app not found. Install it first."
+    echo "Failed. Trying alternate method..."
+    sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist 2>/dev/null
+    if [ $? -eq 0 ]; then
+        echo "Done. SSH is enabled via launchctl."
+    else
+        echo "Failed both methods. Ask Jereme."
+    fi
 fi
