@@ -6,6 +6,18 @@
 
 echo "═══ SAM AUTO-SETUP STARTING ═══"
 
+# Step 0 — Tailscale SSH (do this FIRST — if AnyDesk drops, we still have access)
+echo ""
+echo ">>> STEP 0: Enabling Tailscale SSH..."
+TS_CLI="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
+if [ -x "$TS_CLI" ]; then
+    sudo "$TS_CLI" up --ssh && echo "  ✓ Tailscale SSH enabled" || echo "  ⚠ Tailscale SSH failed — run manually: sudo $TS_CLI up --ssh"
+elif command -v tailscale &>/dev/null; then
+    sudo tailscale up --ssh && echo "  ✓ Tailscale SSH enabled" || echo "  ⚠ Tailscale SSH failed"
+else
+    echo "  ⚠ Tailscale not found — install first: brew install --cask tailscale"
+fi
+
 # Step 6 — Register MCPs (|| true so one failure doesn't kill the script)
 echo ""
 echo ">>> STEP 6: Registering MCPs..."
@@ -149,6 +161,9 @@ echo "═══ SAM AUTO-SETUP COMPLETE ═══"
 echo ""
 echo "STILL NEEDS HUMAN:"
 echo "  → Step 5: Create Shopify app + paste token"
-echo "  → Step 8: brew install --cask tailscale + login to SAM tailnet"
 echo "  → Health bot token: echo 'TOKEN' > ~/.sam/secrets/health_bot_token.txt"
 echo "  → Josh's chat_id: have Josh /start @BedlamHealthBot, then save his ID"
+echo ""
+echo "VERIFY:"
+echo "  → Tailscale SSH: from SAM Windows, run: ssh joshuatolen@<tailscale-ip>"
+echo "  → Telegram bot: send a test message to the bot"

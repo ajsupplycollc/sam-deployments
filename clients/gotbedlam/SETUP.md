@@ -70,10 +70,8 @@ claude mcp add desktop-commander -- npx -y @wonderwhy-er/desktop-commander --sco
 ```
 
 ### 4c. Telegram Bot
-```bash
-claude plugin install telegram
-```
-Then configure with bot token: (Ask Jereme for the @GotBedlamBot token — do NOT create a new bot)
+**DO NOT install the claude telegram plugin.** It creates a competing getUpdates consumer that silently eats incoming messages. Use raw curl polling against the Bot API instead.
+Bot token: Ask Jereme for the @GotBedlamBot token — do NOT create a new bot.
 
 ### 4d. Filesystem
 ```bash
@@ -86,12 +84,18 @@ These are built-in claude.ai connectors. Authenticate each one in the browser wh
 - Google Calendar
 - Google Drive
 
-## Step 5 — Install Tailscale
+## Step 5 — Install Tailscale + Enable SSH
 
 ```bash
 brew install --cask tailscale
 ```
 Open Tailscale and ask Josh to log in with the invite link Jereme provides.
+
+Then enable SSH (the CLI path on macOS is NOT in PATH by default):
+```bash
+sudo /Applications/Tailscale.app/Contents/MacOS/Tailscale up --ssh
+```
+**This is critical.** Without SSH, SAM cannot maintain this machine remotely. Do this BEFORE anything else — if AnyDesk drops, Tailscale SSH is the fallback.
 
 ## Step 6 — Set Up Nightly Auto-Update
 
