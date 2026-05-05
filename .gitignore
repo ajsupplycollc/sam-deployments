@@ -1,0 +1,2 @@
+# Never commit secrets (bot tokens, API keys, passwords)
+**/secrets/

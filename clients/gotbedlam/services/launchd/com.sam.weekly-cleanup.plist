@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.sam.weekly-cleanup</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>-c</string>
+        <string>find ~/.sam/whisper_out -name "*.txt" -mtime +3 -delete 2>/dev/null; find ~/.claude/channels/telegram/inbox -name "*.oga" -mtime +3 -delete 2>/dev/null; find /tmp/whisper_out -name "*.txt" -mtime +3 -delete 2>/dev/null; echo "$(date): cleanup done" >> ~/.sam/logs/cleanup.log</string>
+    </array>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Weekday</key>
+        <integer>0</integer>
+        <key>Hour</key>
+        <integer>4</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+    <key>StandardOutPath</key>
+    <string>~/.sam/logs/cleanup.stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>~/.sam/logs/cleanup.stderr.log</string>
+</dict>
+</plist>
